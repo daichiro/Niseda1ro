@@ -7,7 +7,7 @@ public class Niseda1roTest {
 	@Test
 	public void test() {
 		Niseda1ro niseda1ro = new Niseda1ro();
-		fail("まだ実装されていません");
+		assertEquals(niseda1ro.selectReadOneLine("src/txt/statusesMock.txt"), "ほげほげ");
 	}
 
 }
