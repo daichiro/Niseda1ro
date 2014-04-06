@@ -10,10 +10,15 @@ import java.util.Random;
 import twitter4j.*;
 
 public class Niseda1ro {
+	public static final int cronTime = 2;
 	Twitter twitter;
 	String statusText;
+	private Calendar calendar;
+	static Niseda1ro niseda1ro;
+
 	Niseda1ro() {
 		this.twitter = TwitterFactory.getSingleton();
+		this.calendar = Calendar.getInstance();
 	}
 
 	/**
@@ -21,22 +26,39 @@ public class Niseda1ro {
 	 */
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
-		Niseda1ro niseda1ro = new Niseda1ro();
+		niseda1ro = new Niseda1ro();
 		if (niseda1ro.isTimeToTweet()) {
-			niseda1ro.statusText = niseda1ro.selectReadOneLine("txt/statuses.txt");
-			niseda1ro.updateStaticText(niseda1ro.statusText);
+			niseda1ro.statusText = niseda1ro.selectReadOneLine("src/txt/statuses.txt");
+			niseda1ro.updateStaticText(niseda1ro.statusText, 0);
 		}
+		niseda1ro.reply();
 	}
 
 	public boolean isTimeToTweet() {
-		Calendar calendar = Calendar.getInstance();
-		int hour = calendar.get(Calendar.HOUR);
+		int hour = niseda1ro.calendar.get(Calendar.HOUR);
 		if (!(hour>4) && (hour<10)) {
-			int minute = calendar.get(Calendar.MINUTE);
+			int minute = niseda1ro.calendar.get(Calendar.MINUTE);
 			if ((minute==0) || (minute==1) || (minute==30) || (minute==31))
 				return true;
 		}
 		return false;
+	}
+
+	public void reply() {
+		try {
+			ResponseList<Status> replies = niseda1ro.twitter.getMentionsTimeline();
+			long time = cronTime * 60 * 1000;
+			for (Status status : replies) {
+				if ((calendar.getTimeInMillis() - status.getCreatedAt().getTime()) > time)
+					continue;
+				String replyText = "@" + status.getUser().getScreenName() + " ";
+				replyText += niseda1ro.selectReadOneLine("src/txt/replyStatuses.txt");
+				niseda1ro.updateStaticText(replyText, status.getId());
+			}
+		} catch (TwitterException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("resource")
@@ -61,9 +83,9 @@ public class Niseda1ro {
 		return null;
 	}
 
-	public void updateStaticText(String text) {
+	public void updateStaticText(String text, long inReplyToId) {
 		try {
-			this.twitter.updateStatus(text);
+			this.twitter.updateStatus(new StatusUpdate(text).inReplyToStatusId(inReplyToId));
 		} catch (TwitterException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
