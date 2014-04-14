@@ -25,7 +25,6 @@ public class Niseda1ro {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ
 		niseda1ro = new Niseda1ro();
 		if (niseda1ro.isTimeToTweet()) {
 			niseda1ro.statusText = niseda1ro.selectReadOneLine("src/txt/statuses.txt");
@@ -36,7 +35,9 @@ public class Niseda1ro {
 
 	public boolean isTimeToTweet() {
 		int hour = niseda1ro.calendar.get(Calendar.HOUR);
-		if (!((hour>4) && (hour<10))) {
+        int ap = niseda1ro.calendar.get(Calendar.AM_PM);
+		if ((ap == 0) &&
+            !((hour>4) && (hour<10))) {
 			int minute = niseda1ro.calendar.get(Calendar.MINUTE);
 			if ((minute==0) || (minute==1) || (minute==30) || (minute==31))
 				return true;
@@ -56,7 +57,6 @@ public class Niseda1ro {
 				niseda1ro.updateStaticText(replyText, status.getId());
 			}
 		} catch (TwitterException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
@@ -74,10 +74,8 @@ public class Niseda1ro {
 			int selectedLine = rnd.nextInt(statuses.size());
 			return statuses.get(selectedLine);
 		} catch (FileNotFoundException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+            e.printStackTrace();
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 		return null;
@@ -87,7 +85,6 @@ public class Niseda1ro {
 		try {
 			this.twitter.updateStatus(new StatusUpdate(text).inReplyToStatusId(inReplyToId));
 		} catch (TwitterException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
