@@ -36,7 +36,7 @@ public class Niseda1ro {
 	public boolean isTimeToTweet() {
 		int hour = niseda1ro.calendar.get(Calendar.HOUR);
         int ap = niseda1ro.calendar.get(Calendar.AM_PM);
-		if ((ap == 0) &&
+		if (!(ap == 0) ||
             !((hour>4) && (hour<10))) {
 			int minute = niseda1ro.calendar.get(Calendar.MINUTE);
 			if ((minute==0) || (minute==1) || (minute==30) || (minute==31))
