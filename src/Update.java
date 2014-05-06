@@ -17,7 +17,7 @@ public class Update {
     }
 
     public void updateStatus(String status, long inReplyToId) {
-        if (inReplyToId > 0) {
+        if (inReplyToId == 0) {
             status = selectOneLine(Niseda1ro.updateText);
         } else {
             status += selectOneLine(Niseda1ro.replyText);
@@ -38,7 +38,7 @@ public class Update {
         File file = new File(fileName);
         ArrayList<String> texts = new ArrayList<String>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file.getAbsolutePath()));
             String text;
             while ((text = bufferedReader.readLine()) != null) {
                 texts.add(text);
