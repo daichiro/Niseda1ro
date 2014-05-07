@@ -38,7 +38,7 @@ public class Update {
         File file = new File(fileName);
         ArrayList<String> texts = new ArrayList<String>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file.getAbsolutePath()));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             String text;
             while ((text = bufferedReader.readLine()) != null) {
                 texts.add(text);
