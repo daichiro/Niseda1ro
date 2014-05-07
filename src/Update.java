@@ -18,9 +18,9 @@ public class Update {
 
     public void updateStatus(String status, long inReplyToId) {
         if (inReplyToId == 0) {
-            status = selectOneLine(Niseda1ro.updateText);
+            status = selectOneLine(Const.updateText);
         } else {
-            status += selectOneLine(Niseda1ro.replyText);
+            status += selectOneLine(Const.replyText);
         }
         try {
             twitter.updateStatus(new StatusUpdate(status).inReplyToStatusId(inReplyToId));

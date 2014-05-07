@@ -6,8 +6,6 @@ import twitter4j.TwitterFactory;
  * Created by mokumoku on 2014/04/28.
  */
 public class Niseda1ro {
-    public static final String updateText = "Niseda1ro/src/txt/statuses.txt";
-    public static final String replyText = "Niseda1ro/src/txt/replyStatuses.txt";
     TimeManager timeManager;
     Update update;
     Timeline timeline;
